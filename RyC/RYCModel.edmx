@@ -1,0 +1,911 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RYCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="aid" />
+          </Key>
+          <Property Name="aid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="joining_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Expert">
+          <Key>
+            <PropertyRef Name="eid" />
+          </Key>
+          <Property Name="eid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="category" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExpertSolution">
+          <Key>
+            <PropertyRef Name="esid" />
+          </Key>
+          <Property Name="esid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="eid" Type="int" Nullable="false" />
+          <Property Name="sid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Problem">
+          <Key>
+            <PropertyRef Name="pid" />
+          </Key>
+          <Property Name="pid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ptype" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ptitle" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="pdescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Solution">
+          <Key>
+            <PropertyRef Name="sid" />
+          </Key>
+          <Property Name="sid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stitle" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Steps">
+          <Key>
+            <PropertyRef Name="stepid" />
+          </Key>
+          <Property Name="stepid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sid" Type="int" Nullable="false" />
+          <Property Name="stepNo" Type="int" Nullable="false" />
+          <Property Name="stepImg" Type="nvarchar" MaxLength="255" />
+          <Property Name="stepDescription" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserRating">
+          <Key>
+            <PropertyRef Name="ratingid" />
+          </Key>
+          <Property Name="ratingid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sid" Type="int" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="review" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="rating" Type="decimal" Precision="2" Scale="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="uid" />
+          </Key>
+          <Property Name="uid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="default_vid" Type="int" />
+          <Property Name="upicture" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="UserVehicles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="vid" Type="int" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="vid" />
+          </Key>
+          <Property Name="vid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="make" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="model" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="variant" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="year" Type="smallint" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VehicleProblemSolution">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="eid" Type="int" Nullable="false" />
+          <Property Name="vid" Type="int" Nullable="false" />
+          <Property Name="sid" Type="int" Nullable="false" />
+          <Property Name="pid" Type="int" Nullable="false" />
+          <Property Name="overallrating" Type="decimal" Precision="2" Scale="1" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Admin__uid__5FB337D6">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Admin" Type="Self.Admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="uid" />
+            </Principal>
+            <Dependent Role="Admin">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expert__uid__628FA481">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Expert" Type="Self.Expert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="uid" />
+            </Principal>
+            <Dependent Role="Expert">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Problem__uid__6754599E">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Problem" Type="Self.Problem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="uid" />
+            </Principal>
+            <Dependent Role="Problem">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Steps__sid__6C190EBB">
+          <End Role="Solution" Type="Self.Solution" Multiplicity="1" />
+          <End Role="Steps" Type="Self.Steps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solution">
+              <PropertyRef Name="sid" />
+            </Principal>
+            <Dependent Role="Steps">
+              <PropertyRef Name="sid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRating__sid__7E37BEF6">
+          <End Role="Solution" Type="Self.Solution" Multiplicity="1" />
+          <End Role="UserRating" Type="Self.UserRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solution">
+              <PropertyRef Name="sid" />
+            </Principal>
+            <Dependent Role="UserRating">
+              <PropertyRef Name="sid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRating__uid__7F2BE32F">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserRating" Type="Self.UserRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="uid" />
+            </Principal>
+            <Dependent Role="UserRating">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VehicleProb__eid__6EF57B66">
+          <End Role="Expert" Type="Self.Expert" Multiplicity="1" />
+          <End Role="VehicleProblemSolution" Type="Self.VehicleProblemSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expert">
+              <PropertyRef Name="eid" />
+            </Principal>
+            <Dependent Role="VehicleProblemSolution">
+              <PropertyRef Name="eid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VehicleProb__pid__71D1E811">
+          <End Role="Problem" Type="Self.Problem" Multiplicity="1" />
+          <End Role="VehicleProblemSolution" Type="Self.VehicleProblemSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Problem">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="VehicleProblemSolution">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VehicleProb__sid__70DDC3D8">
+          <End Role="Solution" Type="Self.Solution" Multiplicity="1" />
+          <End Role="VehicleProblemSolution" Type="Self.VehicleProblemSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solution">
+              <PropertyRef Name="sid" />
+            </Principal>
+            <Dependent Role="VehicleProblemSolution">
+              <PropertyRef Name="sid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VehicleProb__vid__6FE99F9F">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="VehicleProblemSolution" Type="Self.VehicleProblemSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="vid" />
+            </Principal>
+            <Dependent Role="VehicleProblemSolution">
+              <PropertyRef Name="vid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpertSolution_Expert">
+          <End Role="Expert" Type="Self.Expert" Multiplicity="1" />
+          <End Role="ExpertSolution" Type="Self.ExpertSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expert">
+              <PropertyRef Name="eid" />
+            </Principal>
+            <Dependent Role="ExpertSolution">
+              <PropertyRef Name="eid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpertSolution_Solution">
+          <End Role="Solution" Type="Self.Solution" Multiplicity="1" />
+          <End Role="ExpertSolution" Type="Self.ExpertSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solution">
+              <PropertyRef Name="sid" />
+            </Principal>
+            <Dependent Role="ExpertSolution">
+              <PropertyRef Name="sid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Vehicle_Default">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="vid" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="default_vid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserVehicles_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserVehicles" Type="Self.UserVehicles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="uid" />
+            </Principal>
+            <Dependent Role="UserVehicles">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserVehicles_Vehicles">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserVehicles" Type="Self.UserVehicles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="vid" />
+            </Principal>
+            <Dependent Role="UserVehicles">
+              <PropertyRef Name="vid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RYCModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expert" EntityType="Self.Expert" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpertSolution" EntityType="Self.ExpertSolution" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Problem" EntityType="Self.Problem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Solution" EntityType="Self.Solution" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Steps" EntityType="Self.Steps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRating" EntityType="Self.UserRating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserVehicles" EntityType="Self.UserVehicles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VehicleProblemSolution" EntityType="Self.VehicleProblemSolution" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Admin__uid__5FB337D6" Association="Self.FK__Admin__uid__5FB337D6">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Admin" EntitySet="Admin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expert__uid__628FA481" Association="Self.FK__Expert__uid__628FA481">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Expert" EntitySet="Expert" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Problem__uid__6754599E" Association="Self.FK__Problem__uid__6754599E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Problem" EntitySet="Problem" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Steps__sid__6C190EBB" Association="Self.FK__Steps__sid__6C190EBB">
+            <End Role="Solution" EntitySet="Solution" />
+            <End Role="Steps" EntitySet="Steps" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRating__sid__7E37BEF6" Association="Self.FK__UserRating__sid__7E37BEF6">
+            <End Role="Solution" EntitySet="Solution" />
+            <End Role="UserRating" EntitySet="UserRating" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRating__uid__7F2BE32F" Association="Self.FK__UserRating__uid__7F2BE32F">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRating" EntitySet="UserRating" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VehicleProb__eid__6EF57B66" Association="Self.FK__VehicleProb__eid__6EF57B66">
+            <End Role="Expert" EntitySet="Expert" />
+            <End Role="VehicleProblemSolution" EntitySet="VehicleProblemSolution" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VehicleProb__pid__71D1E811" Association="Self.FK__VehicleProb__pid__71D1E811">
+            <End Role="Problem" EntitySet="Problem" />
+            <End Role="VehicleProblemSolution" EntitySet="VehicleProblemSolution" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VehicleProb__sid__70DDC3D8" Association="Self.FK__VehicleProb__sid__70DDC3D8">
+            <End Role="Solution" EntitySet="Solution" />
+            <End Role="VehicleProblemSolution" EntitySet="VehicleProblemSolution" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VehicleProb__vid__6FE99F9F" Association="Self.FK__VehicleProb__vid__6FE99F9F">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="VehicleProblemSolution" EntitySet="VehicleProblemSolution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpertSolution_Expert" Association="Self.FK_ExpertSolution_Expert">
+            <End Role="Expert" EntitySet="Expert" />
+            <End Role="ExpertSolution" EntitySet="ExpertSolution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpertSolution_Solution" Association="Self.FK_ExpertSolution_Solution">
+            <End Role="Solution" EntitySet="Solution" />
+            <End Role="ExpertSolution" EntitySet="ExpertSolution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Vehicle_Default" Association="Self.FK_User_Vehicle_Default">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserVehicles_Users" Association="Self.FK_UserVehicles_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserVehicles" EntitySet="UserVehicles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserVehicles_Vehicles" Association="Self.FK_UserVehicles_Vehicles">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="UserVehicles" EntitySet="UserVehicles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RYCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="aid" />
+          </Key>
+          <Property Name="aid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="joining_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Admin__uid__5FB337D6" FromRole="Admin" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Expert">
+          <Key>
+            <PropertyRef Name="eid" />
+          </Key>
+          <Property Name="eid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Expert__uid__628FA481" FromRole="Expert" ToRole="Users" />
+          <NavigationProperty Name="VehicleProblemSolutions" Relationship="Self.FK__VehicleProb__eid__6EF57B66" FromRole="Expert" ToRole="VehicleProblemSolution" />
+          <NavigationProperty Name="ExpertSolutions" Relationship="RYCModel.FK_ExpertSolution_Expert" FromRole="Expert" ToRole="ExpertSolution" />
+        </EntityType>
+        <EntityType Name="Problem">
+          <Key>
+            <PropertyRef Name="pid" />
+          </Key>
+          <Property Name="pid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ptype" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ptitle" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="pdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Problem__uid__6754599E" FromRole="Problem" ToRole="Users" />
+          <NavigationProperty Name="VehicleProblemSolutions" Relationship="Self.FK__VehicleProb__pid__71D1E811" FromRole="Problem" ToRole="VehicleProblemSolution" />
+        </EntityType>
+        <EntityType Name="Solution">
+          <Key>
+            <PropertyRef Name="sid" />
+          </Key>
+          <Property Name="sid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="stitle" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Steps" Relationship="Self.FK__Steps__sid__6C190EBB" FromRole="Solution" ToRole="Steps" />
+          <NavigationProperty Name="UserRatings" Relationship="Self.FK__UserRating__sid__7E37BEF6" FromRole="Solution" ToRole="UserRating" />
+          <NavigationProperty Name="VehicleProblemSolutions" Relationship="Self.FK__VehicleProb__sid__70DDC3D8" FromRole="Solution" ToRole="VehicleProblemSolution" />
+          <NavigationProperty Name="ExpertSolutions" Relationship="RYCModel.FK_ExpertSolution_Solution" FromRole="Solution" ToRole="ExpertSolution" />
+        </EntityType>
+        <EntityType Name="Step">
+          <Key>
+            <PropertyRef Name="stepid" />
+          </Key>
+          <Property Name="stepid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sid" Type="Int32" Nullable="false" />
+          <Property Name="stepNo" Type="Int32" Nullable="false" />
+          <Property Name="stepImg" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="stepDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Solution" Relationship="Self.FK__Steps__sid__6C190EBB" FromRole="Steps" ToRole="Solution" />
+        </EntityType>
+        <EntityType Name="UserRating">
+          <Key>
+            <PropertyRef Name="ratingid" />
+          </Key>
+          <Property Name="ratingid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sid" Type="Int32" Nullable="false" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="review" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="rating" Type="Decimal" Precision="2" Scale="1" Nullable="false" />
+          <NavigationProperty Name="Solution" Relationship="Self.FK__UserRating__sid__7E37BEF6" FromRole="UserRating" ToRole="Solution" />
+          <NavigationProperty Name="User" Relationship="Self.FK__UserRating__uid__7F2BE32F" FromRole="UserRating" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="uid" />
+          </Key>
+          <Property Name="uid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Admins" Relationship="Self.FK__Admin__uid__5FB337D6" FromRole="Users" ToRole="Admin" />
+          <NavigationProperty Name="Experts" Relationship="Self.FK__Expert__uid__628FA481" FromRole="Users" ToRole="Expert" />
+          <NavigationProperty Name="Problems" Relationship="Self.FK__Problem__uid__6754599E" FromRole="Users" ToRole="Problem" />
+          <NavigationProperty Name="UserRatings" Relationship="Self.FK__UserRating__uid__7F2BE32F" FromRole="Users" ToRole="UserRating" />
+          <Property Name="default_vid" Type="Int32" />
+          <NavigationProperty Name="Vehicle" Relationship="RYCModel.FK_User_Vehicle_Default" FromRole="User" ToRole="Vehicle" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="upicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserVehicles" Relationship="RYCModel.FK_UserVehicles_Users" FromRole="User" ToRole="UserVehicle" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="vid" />
+          </Key>
+          <Property Name="vid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="make" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="variant" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="year" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="VehicleProblemSolutions" Relationship="Self.FK__VehicleProb__vid__6FE99F9F" FromRole="Vehicle" ToRole="VehicleProblemSolution" />
+          <NavigationProperty Name="Users" Relationship="RYCModel.FK_User_Vehicle_Default" FromRole="Vehicle" ToRole="User" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserVehicles" Relationship="RYCModel.FK_UserVehicles_Vehicles" FromRole="Vehicle" ToRole="UserVehicle" />
+        </EntityType>
+        <EntityType Name="VehicleProblemSolution">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="eid" Type="Int32" Nullable="false" />
+          <Property Name="vid" Type="Int32" Nullable="false" />
+          <Property Name="sid" Type="Int32" Nullable="false" />
+          <Property Name="pid" Type="Int32" Nullable="false" />
+          <Property Name="overallrating" Type="Decimal" Precision="2" Scale="1" Nullable="false" />
+          <NavigationProperty Name="Expert" Relationship="Self.FK__VehicleProb__eid__6EF57B66" FromRole="VehicleProblemSolution" ToRole="Expert" />
+          <NavigationProperty Name="Problem" Relationship="Self.FK__VehicleProb__pid__71D1E811" FromRole="VehicleProblemSolution" ToRole="Problem" />
+          <NavigationProperty Name="Solution" Relationship="Self.FK__VehicleProb__sid__70DDC3D8" FromRole="VehicleProblemSolution" ToRole="Solution" />
+          <NavigationProperty Name="Vehicle" Relationship="Self.FK__VehicleProb__vid__6FE99F9F" FromRole="VehicleProblemSolution" ToRole="Vehicle" />
+        </EntityType>
+        <Association Name="FK__Admin__uid__5FB337D6">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Admin" Type="Self.Admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="uid" />
+            </Principal>
+            <Dependent Role="Admin">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expert__uid__628FA481">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Expert" Type="Self.Expert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="uid" />
+            </Principal>
+            <Dependent Role="Expert">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VehicleProb__eid__6EF57B66">
+          <End Role="Expert" Type="Self.Expert" Multiplicity="1" />
+          <End Role="VehicleProblemSolution" Type="Self.VehicleProblemSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expert">
+              <PropertyRef Name="eid" />
+            </Principal>
+            <Dependent Role="VehicleProblemSolution">
+              <PropertyRef Name="eid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Problem__uid__6754599E">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Problem" Type="Self.Problem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="uid" />
+            </Principal>
+            <Dependent Role="Problem">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VehicleProb__pid__71D1E811">
+          <End Role="Problem" Type="Self.Problem" Multiplicity="1" />
+          <End Role="VehicleProblemSolution" Type="Self.VehicleProblemSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Problem">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="VehicleProblemSolution">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Steps__sid__6C190EBB">
+          <End Role="Solution" Type="Self.Solution" Multiplicity="1" />
+          <End Role="Steps" Type="Self.Step" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solution">
+              <PropertyRef Name="sid" />
+            </Principal>
+            <Dependent Role="Steps">
+              <PropertyRef Name="sid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRating__sid__7E37BEF6">
+          <End Role="Solution" Type="Self.Solution" Multiplicity="1" />
+          <End Role="UserRating" Type="Self.UserRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solution">
+              <PropertyRef Name="sid" />
+            </Principal>
+            <Dependent Role="UserRating">
+              <PropertyRef Name="sid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VehicleProb__sid__70DDC3D8">
+          <End Role="Solution" Type="Self.Solution" Multiplicity="1" />
+          <End Role="VehicleProblemSolution" Type="Self.VehicleProblemSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solution">
+              <PropertyRef Name="sid" />
+            </Principal>
+            <Dependent Role="VehicleProblemSolution">
+              <PropertyRef Name="sid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRating__uid__7F2BE32F">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRating" Type="Self.UserRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="uid" />
+            </Principal>
+            <Dependent Role="UserRating">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VehicleProb__vid__6FE99F9F">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="VehicleProblemSolution" Type="Self.VehicleProblemSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="vid" />
+            </Principal>
+            <Dependent Role="VehicleProblemSolution">
+              <PropertyRef Name="vid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RYCEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Experts" EntityType="Self.Expert" />
+          <EntitySet Name="Problems" EntityType="Self.Problem" />
+          <EntitySet Name="Solutions" EntityType="Self.Solution" />
+          <EntitySet Name="Steps" EntityType="Self.Step" />
+          <EntitySet Name="UserRatings" EntityType="Self.UserRating" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+          <EntitySet Name="VehicleProblemSolutions" EntityType="Self.VehicleProblemSolution" />
+          <AssociationSet Name="FK__Admin__uid__5FB337D6" Association="Self.FK__Admin__uid__5FB337D6">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Admin" EntitySet="Admins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expert__uid__628FA481" Association="Self.FK__Expert__uid__628FA481">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Expert" EntitySet="Experts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VehicleProb__eid__6EF57B66" Association="Self.FK__VehicleProb__eid__6EF57B66">
+            <End Role="Expert" EntitySet="Experts" />
+            <End Role="VehicleProblemSolution" EntitySet="VehicleProblemSolutions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Problem__uid__6754599E" Association="Self.FK__Problem__uid__6754599E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Problem" EntitySet="Problems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VehicleProb__pid__71D1E811" Association="Self.FK__VehicleProb__pid__71D1E811">
+            <End Role="Problem" EntitySet="Problems" />
+            <End Role="VehicleProblemSolution" EntitySet="VehicleProblemSolutions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Steps__sid__6C190EBB" Association="Self.FK__Steps__sid__6C190EBB">
+            <End Role="Solution" EntitySet="Solutions" />
+            <End Role="Steps" EntitySet="Steps" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRating__sid__7E37BEF6" Association="Self.FK__UserRating__sid__7E37BEF6">
+            <End Role="Solution" EntitySet="Solutions" />
+            <End Role="UserRating" EntitySet="UserRatings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VehicleProb__sid__70DDC3D8" Association="Self.FK__VehicleProb__sid__70DDC3D8">
+            <End Role="Solution" EntitySet="Solutions" />
+            <End Role="VehicleProblemSolution" EntitySet="VehicleProblemSolutions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRating__uid__7F2BE32F" Association="Self.FK__UserRating__uid__7F2BE32F">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRating" EntitySet="UserRatings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VehicleProb__vid__6FE99F9F" Association="Self.FK__VehicleProb__vid__6FE99F9F">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="VehicleProblemSolution" EntitySet="VehicleProblemSolutions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Vehicle_Default" Association="RYCModel.FK_User_Vehicle_Default">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="ExpertSolutions" EntityType="RYCModel.ExpertSolution" />
+          <AssociationSet Name="FK_ExpertSolution_Expert" Association="RYCModel.FK_ExpertSolution_Expert">
+            <End Role="Expert" EntitySet="Experts" />
+            <End Role="ExpertSolution" EntitySet="ExpertSolutions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpertSolution_Solution" Association="RYCModel.FK_ExpertSolution_Solution">
+            <End Role="Solution" EntitySet="Solutions" />
+            <End Role="ExpertSolution" EntitySet="ExpertSolutions" />
+          </AssociationSet>
+          <EntitySet Name="UserVehicles" EntityType="RYCModel.UserVehicle" />
+          <AssociationSet Name="FK_UserVehicles_Users" Association="RYCModel.FK_UserVehicles_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserVehicle" EntitySet="UserVehicles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserVehicles_Vehicles" Association="RYCModel.FK_UserVehicles_Vehicles">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="UserVehicle" EntitySet="UserVehicles" />
+          </AssociationSet>
+          </EntityContainer>
+        <Association Name="FK_User_Vehicle_Default">
+          <End Type="RYCModel.Vehicle" Role="Vehicle" Multiplicity="0..1" />
+          <End Type="RYCModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="vid" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="default_vid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ExpertSolution">
+          <Key>
+            <PropertyRef Name="esid" />
+          </Key>
+          <Property Name="esid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="eid" Type="Int32" Nullable="false" />
+          <Property Name="sid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Expert" Relationship="RYCModel.FK_ExpertSolution_Expert" FromRole="ExpertSolution" ToRole="Expert" />
+          <NavigationProperty Name="Solution" Relationship="RYCModel.FK_ExpertSolution_Solution" FromRole="ExpertSolution" ToRole="Solution" />
+        </EntityType>
+        <Association Name="FK_ExpertSolution_Expert">
+          <End Type="RYCModel.Expert" Role="Expert" Multiplicity="1" />
+          <End Type="RYCModel.ExpertSolution" Role="ExpertSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expert">
+              <PropertyRef Name="eid" />
+            </Principal>
+            <Dependent Role="ExpertSolution">
+              <PropertyRef Name="eid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpertSolution_Solution">
+          <End Type="RYCModel.Solution" Role="Solution" Multiplicity="1" />
+          <End Type="RYCModel.ExpertSolution" Role="ExpertSolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solution">
+              <PropertyRef Name="sid" />
+            </Principal>
+            <Dependent Role="ExpertSolution">
+              <PropertyRef Name="sid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserVehicle">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="vid" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="RYCModel.FK_UserVehicles_Users" FromRole="UserVehicle" ToRole="User" />
+          <NavigationProperty Name="Vehicle" Relationship="RYCModel.FK_UserVehicles_Vehicles" FromRole="UserVehicle" ToRole="Vehicle" />
+        </EntityType>
+        <Association Name="FK_UserVehicles_Users">
+          <End Type="RYCModel.User" Role="User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RYCModel.UserVehicle" Role="UserVehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="uid" />
+            </Principal>
+            <Dependent Role="UserVehicle">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserVehicles_Vehicles">
+          <End Type="RYCModel.Vehicle" Role="Vehicle" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RYCModel.UserVehicle" Role="UserVehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="vid" />
+            </Principal>
+            <Dependent Role="UserVehicle">
+              <PropertyRef Name="vid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RYCModelStoreContainer" CdmEntityContainer="RYCEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="RYCModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="aid" ColumnName="aid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="joining_date" ColumnName="joining_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Experts">
+            <EntityTypeMapping TypeName="RYCModel.Expert">
+              <MappingFragment StoreEntitySet="Expert">
+                <ScalarProperty Name="eid" ColumnName="eid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="category" ColumnName="category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Problems">
+            <EntityTypeMapping TypeName="RYCModel.Problem">
+              <MappingFragment StoreEntitySet="Problem">
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="ptype" ColumnName="ptype" />
+                <ScalarProperty Name="ptitle" ColumnName="ptitle" />
+                <ScalarProperty Name="pdescription" ColumnName="pdescription" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Solutions">
+            <EntityTypeMapping TypeName="RYCModel.Solution">
+              <MappingFragment StoreEntitySet="Solution">
+                <ScalarProperty Name="sid" ColumnName="sid" />
+                <ScalarProperty Name="stitle" ColumnName="stitle" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Steps">
+            <EntityTypeMapping TypeName="RYCModel.Step">
+              <MappingFragment StoreEntitySet="Steps">
+                <ScalarProperty Name="stepid" ColumnName="stepid" />
+                <ScalarProperty Name="sid" ColumnName="sid" />
+                <ScalarProperty Name="stepNo" ColumnName="stepNo" />
+                <ScalarProperty Name="stepImg" ColumnName="stepImg" />
+                <ScalarProperty Name="stepDescription" ColumnName="stepDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRatings">
+            <EntityTypeMapping TypeName="RYCModel.UserRating">
+              <MappingFragment StoreEntitySet="UserRating">
+                <ScalarProperty Name="ratingid" ColumnName="ratingid" />
+                <ScalarProperty Name="sid" ColumnName="sid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="review" ColumnName="review" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="RYCModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="upicture" ColumnName="upicture" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="default_vid" ColumnName="default_vid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicles">
+            <EntityTypeMapping TypeName="RYCModel.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="vid" ColumnName="vid" />
+                <ScalarProperty Name="make" ColumnName="make" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="variant" ColumnName="variant" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VehicleProblemSolutions">
+            <EntityTypeMapping TypeName="RYCModel.VehicleProblemSolution">
+              <MappingFragment StoreEntitySet="VehicleProblemSolution">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="eid" ColumnName="eid" />
+                <ScalarProperty Name="vid" ColumnName="vid" />
+                <ScalarProperty Name="sid" ColumnName="sid" />
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="overallrating" ColumnName="overallrating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpertSolutions">
+            <EntityTypeMapping TypeName="RYCModel.ExpertSolution">
+              <MappingFragment StoreEntitySet="ExpertSolution">
+                <ScalarProperty Name="sid" ColumnName="sid" />
+                <ScalarProperty Name="eid" ColumnName="eid" />
+                <ScalarProperty Name="esid" ColumnName="esid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserVehicles">
+            <EntityTypeMapping TypeName="RYCModel.UserVehicle">
+              <MappingFragment StoreEntitySet="UserVehicles">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="vid" ColumnName="vid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

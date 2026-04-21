@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b438027213c24bec9d58f8fcb1c86b0f" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="RYCModel.Admin" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RYCModel.Expert" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RYCModel.Problem" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RYCModel.Solution" Width="1.5" PointX="5.5" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RYCModel.Step" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RYCModel.UserRating" Width="1.5" PointX="7.5" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RYCModel.User" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RYCModel.Vehicle" Width="1.5" PointX="8.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RYCModel.VehicleProblemSolution" Width="1.5" PointX="10.5" PointY="8.75" IsExpanded="true" />
+        <AssociationConnector Association="RYCModel.FK__Admin__uid__5FB337D6" ManuallyRouted="false" />
+        <AssociationConnector Association="RYCModel.FK__Expert__uid__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="RYCModel.FK__VehicleProb__eid__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="RYCModel.FK__Problem__uid__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="RYCModel.FK__VehicleProb__pid__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="RYCModel.FK__Steps__sid__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="RYCModel.FK__UserRating__sid__7E37BEF6" ManuallyRouted="false" />
+        <AssociationConnector Association="RYCModel.FK__VehicleProb__sid__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="RYCModel.FK__UserRating__uid__7F2BE32F" ManuallyRouted="false" />
+        <AssociationConnector Association="RYCModel.FK__VehicleProb__vid__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="RYCModel.FK_User_Vehicle_Default" />
+        <EntityTypeShape EntityType="RYCModel.ExpertSolution" Width="1.5" PointX="10.75" PointY="5.625" />
+        <AssociationConnector Association="RYCModel.FK_ExpertSolution_Expert" />
+        <AssociationConnector Association="RYCModel.FK_ExpertSolution_Solution" />
+        <EntityTypeShape EntityType="RYCModel.UserVehicle" Width="1.5" PointX="13.5" PointY="6.5" />
+        <AssociationConnector Association="RYCModel.FK_UserVehicles_Users" />
+        <AssociationConnector Association="RYCModel.FK_UserVehicles_Vehicles" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
